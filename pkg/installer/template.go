@@ -58,14 +58,17 @@ func (t *templateUpdateResults) String() string {
 
 // TemplateManager is a manager for templates.
 // It downloads / updates / installs templates.
+// TemplateManager是模板管理器，进行模板得到下载、更新、安装
 type TemplateManager struct {
-	CustomTemplates        *customtemplates.CustomTemplatesManager // optional if given tries to download custom templates
+	CustomTemplates        *customtemplates.CustomTemplatesManager // 可选（如果给定）尝试下载自定义模板 optional if given tries to download custom templates
 	DisablePublicTemplates bool                                    // if true,
-	// public templates are not downloaded from the GitHub nuclei-templates repository
+	// public templates are not downloaded from the GitHub nuclei-templates repository 公共模板不是从GitHub nucles模板存储库下载的
 }
 
 // FreshInstallIfNotExists installs templates if they are not already installed
 // if templates directory already exists, it does nothing
+// 如果模板尚未安装，则进行新安装
+// 如果模板目录已存在，则不执行任何操作
 func (t *TemplateManager) FreshInstallIfNotExists() error {
 	if fileutil.FolderExists(config.DefaultConfig.TemplatesDirectory) {
 		return nil
@@ -80,9 +83,10 @@ func (t *TemplateManager) FreshInstallIfNotExists() error {
 	return nil
 }
 
-// UpdateIfOutdated updates templates if they are outdated
+// UpdateIfOutdated updates templates if they are outdated 如果模板过时，则更新模板
 func (t *TemplateManager) UpdateIfOutdated() error {
 	// if the templates folder does not exist, it's a fresh installation and do not update
+	// 如果模板文件夹不存在，则表示这是一个全新的安装，请不要进行更新
 	if !fileutil.FolderExists(config.DefaultConfig.TemplatesDirectory) {
 		return t.FreshInstallIfNotExists()
 	}
@@ -93,6 +97,7 @@ func (t *TemplateManager) UpdateIfOutdated() error {
 }
 
 // installTemplatesAt installs templates at given directory
+// installTemplatesAt 在给定的目录安装模板
 func (t *TemplateManager) installTemplatesAt(dir string) error {
 	if !fileutil.FolderExists(dir) {
 		if err := fileutil.CreateFolder(dir); err != nil {
@@ -117,15 +122,18 @@ func (t *TemplateManager) installTemplatesAt(dir string) error {
 }
 
 // updateTemplatesAt updates templates at given directory
+// updateTemplatesAt 在给定的目录更新模板
 func (t *TemplateManager) updateTemplatesAt(dir string) error {
 	if t.DisablePublicTemplates {
 		gologger.Info().Msgf("Skipping update of public nuclei-templates")
 		return nil
 	}
 	// firstly, read checksums from .checksum file these are used to generate stats
+	// 首先，从 .checksum 文件中读取校验和，这些校验和用于生成统计信息
 	oldchecksums, err := t.getChecksumFromDir(dir)
 	if err != nil {
 		// if something went wrong, overwrite all files
+		// 如果发生错误，覆盖所有文件
 		oldchecksums = make(map[string]string)
 	}
 
@@ -137,21 +145,23 @@ func (t *TemplateManager) updateTemplatesAt(dir string) error {
 	gologger.Info().Msgf("Your current nuclei-templates %s are outdated. Latest is %s\n", config.DefaultConfig.TemplateVersion, ghrd.Latest.GetTagName())
 
 	// write templates to disk
+	// 将模板写入磁盘
 	if err := t.writeTemplatesToDisk(ghrd, dir); err != nil {
 		return err
 	}
 
 	// get checksums from new templates
+	// 从新的模板获取校验和
 	newchecksums, err := t.getChecksumFromDir(dir)
 	if err != nil {
 		// unlikely this case will happen
 		return errorutil.NewWithErr(err).Msgf("failed to get checksums from %s after update", dir)
 	}
 
-	// summarize all changes
+	// summarize all changes 总结所有更改
 	results := t.summarizeChanges(oldchecksums, newchecksums)
 
-	// print summary
+	// print summary 打印摘要
 	if results.totalCount > 0 {
 		gologger.Info().Msgf("Successfully updated nuclei-templates (%v) to %s. GoodLuck!", ghrd.Latest.GetTagName(), dir)
 		if !HideUpdateChangesTable {
@@ -166,6 +176,7 @@ func (t *TemplateManager) updateTemplatesAt(dir string) error {
 }
 
 // summarizeChanges summarizes changes between old and new checksums
+// summarizeChanges 对旧的和新的校验和之间的更改进行比对
 func (t *TemplateManager) summarizeChanges(old, new map[string]string) *templateUpdateResults {
 	results := &templateUpdateResults{}
 	for k, v := range new {

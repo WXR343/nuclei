@@ -1,0 +1,13 @@
+[tech-detect:php] [http] [info] http://192.168.237.148:80
+[configuration-listing] [http] [medium] http://192.168.237.148:80/config/
+[exposed-gitignore] [http] [info] http://192.168.237.148:80/.gitignore
+[readme-md] [http] [info] http://192.168.237.148:80/README.md
+[robots-txt-endpoint] [http] [info] http://192.168.237.148:80/robots.txt
+[waf-detect:apachegeneric] [http] [info] http://192.168.237.148:80/
+[rpcbind-portmapper-detect] [tcp] [info] 192.168.237.148:111
+[ssh-auth-methods] [javascript] [info] 192.168.237.148:22 [["publickey","gssapi-keyex","gssapi-with-mic","password"]]
+[ssh-diffie-hellman-logjam] [javascript] [low] 192.168.237.148:22
+[ssh-sha1-hmac-algo] [javascript] [info] 192.168.237.148:22
+[ssh-weakkey-exchange-algo] [javascript] [low] 192.168.237.148:22
+[ssh-cbc-mode-ciphers] [javascript] [low] 192.168.237.148:22
+[ssh-server-enumeration] [javascript] [info] 192.168.237.148:22 [SSH-2.0-OpenSSH_7.4]

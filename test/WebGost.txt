@@ -1,0 +1,14 @@
+[options-method] [http] [info] http://192.168.237.148:3000/ [GET,HEAD]
+[nginx-version] [http] [info] http://192.168.237.148:3000/ [nginx/1.18.0]
+[tech-detect:express] [http] [info] http://192.168.237.148:3000/
+[tech-detect:nginx] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:x-frame-options] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:x-content-type-options] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:referrer-policy] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:clear-site-data] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:strict-transport-security] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:content-security-policy] [http] [info] http://192.168.237.148:3000/
+[http-missing-security-headers:permissions-policy] [http] [info] http://192.168.237.148:3000/
+[waf-detect:nginxgeneric] [http] [info] http://192.168.237.148:3000/
+[waf-detect:securesphere] [http] [info] http://192.168.237.148:3000/

@@ -83,6 +83,7 @@ type Store struct {
 }
 
 // NewConfig returns a new loader config
+// NewConfig 返回一个新的加载器配置
 func NewConfig(options *types.Options, catalog catalog.Catalog, executerOpts protocols.ExecutorOptions) *Config {
 	loaderConfig := Config{
 		Templates:                options.Templates,
@@ -246,8 +247,11 @@ func (store *Store) RegisterPreprocessor(preprocessor templates.Preprocessor) {
 
 // Load loads all the templates from a store, performs filtering and returns
 // the complete compiled templates for a nuclei execution configuration.
+// Load 函数从存储中加载所有的模板，根据指定的过滤条件进行筛选，并返回符合 nuclei 执行配置的完整编译模板
 func (store *Store) Load() {
+	// 模板
 	store.templates = store.LoadTemplates(store.finalTemplates)
+	// 工作流
 	store.workflows = store.LoadWorkflows(store.finalWorkflows)
 }
 
@@ -350,6 +354,8 @@ func isParsingError(message string, template string, err error) bool {
 }
 
 // LoadTemplates takes a list of templates and returns paths for them
+//
+//	LoadTemplates 函数接收一个模板列表，并返回它们的路径
 func (store *Store) LoadTemplates(templatesList []string) []*templates.Template {
 	return store.LoadTemplatesWithTags(templatesList, nil)
 }

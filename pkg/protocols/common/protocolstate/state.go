@@ -16,7 +16,7 @@ import (
 // Dialer is a shared fastdialer instance for host DNS resolution
 var Dialer *fastdialer.Dialer
 
-// Init creates the Dialer instance based on user configuration
+// Init creates the Dialer instance based on user configuration | Init根据用户配置创建拨号程序实例
 func Init(options *types.Options) error {
 	if Dialer != nil {
 		return nil

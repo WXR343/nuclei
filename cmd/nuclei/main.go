@@ -56,26 +56,30 @@ func main() {
 	}
 
 	// sign the templates if requested - only glob syntax is supported
+	// 如果请求，请对模板进行签名-仅支持glob语法
 	if options.SignTemplates {
 		// use parsed options when initializing signer instead of default options
+		// 初始化签名者时使用已解析的选项，而不是默认选项
 		templates.UseOptionsForSigner(options)
-		tsigner, err := signer.NewTemplateSigner(nil, nil) // will read from env , config or generate new keys
+		tsigner, err := signer.NewTemplateSigner(nil, nil) // 将从env读取、配置或生成新密钥 will read from env , config or generate new keys
 		if err != nil {
 			gologger.Fatal().Msgf("couldn't initialize signer crypto engine: %s\n", err)
 		}
 
 		successCounter := 0
 		errorCounter := 0
+		// 遍历模板，进行签名
 		for _, item := range options.Templates {
 			err := filepath.WalkDir(item, func(iterItem string, d fs.DirEntry, err error) error {
 				if err != nil || d.IsDir() || !strings.HasSuffix(iterItem, extensions.YAML) {
-					// skip non yaml files
+					// skip non yaml files 跳过非yaml文件
 					return nil
 				}
-
+				// SignTemplate使用自定义签名者对临时对象进行签名
 				if err := templates.SignTemplate(tsigner, iterItem); err != nil {
 					if err != templates.ErrNotATemplate {
 						// skip warnings and errors as given items are not templates
+						// 跳过警告和错误，因为给定的项目不是模板
 						errorCounter++
 						gologger.Error().Msgf("could not sign '%s': %s\n", iterItem, err)
 					}
@@ -93,8 +97,9 @@ func main() {
 		return
 	}
 
-	// Profiling related code
+	// Profiling related code 分析相关代码
 	if memProfile != "" {
+		// 创建内存配置文件
 		f, err := os.Create(memProfile)
 		if err != nil {
 			gologger.Fatal().Msgf("profile: could not create memory profile %q: %v", memProfile, err)
@@ -107,17 +112,19 @@ func main() {
 			_ = pprof.Lookup("heap").WriteTo(f, 0)
 			f.Close()
 			runtime.MemProfileRate = old
+			// 已禁用内存分析
 			gologger.Print().Msgf("profile: memory profiling disabled, %s", memProfile)
 		}()
 	}
-
+	// ParseOptions解析用户提供的命令行标志
 	runner.ParseOptions(options)
 
 	if options.HangMonitor {
+		// NewStackMonitor返回一个新的堆栈监视器实例
 		cancel := monitor.NewStackMonitor(10 * time.Second)
 		defer cancel()
 	}
-
+	// New会创建一个新的客户端来运行枚举进程。
 	nucleiRunner, err := runner.New(options)
 	if err != nil {
 		gologger.Fatal().Msgf("Could not create runner: %s\n", err)
@@ -162,7 +169,7 @@ func main() {
 
 func readConfig() *goflags.FlagSet {
 
-	// when true updates nuclei binary to latest version
+	// when true updates nuclei binary to latest version 当true时nucles更新到最新版本时
 	var updateNucleiBinary bool
 	var pdcpauth bool
 

@@ -88,7 +88,7 @@ type Runner struct {
 
 const pprofServerAddress = "127.0.0.1:8086"
 
-// New creates a new client for running the enumeration process.
+// New creates a new client for running the enumeration process. | New会创建一个新的客户端来运行枚举进程。
 func New(options *types.Options) (*Runner, error) {
 	runner := &Runner{
 		options: options,
@@ -99,7 +99,7 @@ func New(options *types.Options) (*Runner, error) {
 		os.Exit(0)
 	}
 
-	//  Version check by default
+	//  Version check by default 默认情况下的版本检查
 	if config.DefaultConfig.CanCheckForUpdates() {
 		if err := installer.NucleiVersionCheck(); err != nil {
 			if options.Verbose || options.Debug {
@@ -107,7 +107,7 @@ func New(options *types.Options) (*Runner, error) {
 			}
 		}
 
-		// check for custom template updates and update if available
+		// check for custom template updates and update if available | 检查自定义模板是否有更新，并在有更新时进行更新
 		ctm, err := customtemplates.NewCustomTemplatesManager(options)
 		if err != nil {
 			gologger.Error().Label("custom-templates").Msgf("Failed to create custom templates manager: %s\n", err)
@@ -115,17 +115,21 @@ func New(options *types.Options) (*Runner, error) {
 
 		// Check for template updates and update if available.
 		// If the custom templates manager is not nil, we will install custom templates if there is a fresh installation
+		// 检查模板是否有更新，并在有更新时进行更新。
+		// 如果自定义模板管理器不为空，且是新的安装，则安装自定义模板。
 		tm := &installer.TemplateManager{
 			CustomTemplates:        ctm,
 			DisablePublicTemplates: options.PublicTemplateDisableDownload,
 		}
+		// 下载安装模板
 		if err := tm.FreshInstallIfNotExists(); err != nil {
 			gologger.Warning().Msgf("failed to install nuclei templates: %s\n", err)
 		}
+		// 更新模板
 		if err := tm.UpdateIfOutdated(); err != nil {
 			gologger.Warning().Msgf("failed to update nuclei templates: %s\n", err)
 		}
-
+		// 是否需要忽略文件更新
 		if config.DefaultConfig.NeedsIgnoreFileUpdate() {
 			if err := installer.UpdateIgnoreFile(); err != nil {
 				gologger.Warning().Msgf("failed to update nuclei ignore file: %s\n", err)
@@ -144,15 +148,17 @@ func New(options *types.Options) (*Runner, error) {
 			}
 		}
 	}
-
+	// Validate 对传递给 nuclei 的模板进行验证
 	if options.Validate {
 		parsers.ShouldValidate = true
 	}
 
 	// TODO: refactor to pass options reference globally without cycles
+	// 将选项引用全局传递，避免循环依赖
 	parsers.NoStrictSyntax = options.NoStrictSyntax
 	yaml.StrictSyntax = !options.NoStrictSyntax
 
+	// Headless指定是否允许无头模式模板
 	if options.Headless {
 		if engine.MustDisableSandbox() {
 			gologger.Warning().Msgf("The current platform and privileged user will run the browser without sandbox\n")
@@ -166,6 +172,7 @@ func New(options *types.Options) (*Runner, error) {
 
 	runner.catalog = disk.NewCatalog(config.DefaultConfig.TemplatesDirectory)
 
+	// httpclient变量
 	var httpclient *retryablehttp.Client
 	if options.ProxyInternal && types.ProxyURL != "" || types.ProxySocksURL != "" {
 		var err error
@@ -174,7 +181,7 @@ func New(options *types.Options) (*Runner, error) {
 			return nil, err
 		}
 	}
-
+	// CreateConfigIfNotExists 在报告配置文件不存在时创建报告配置文件
 	if err := reporting.CreateConfigIfNotExists(); err != nil {
 		return nil, err
 	}
@@ -187,6 +194,7 @@ func New(options *types.Options) (*Runner, error) {
 	}
 
 	if reportingOptions != nil {
+		// 创建问题报告客户端
 		client, err := reporting.New(reportingOptions, options.ReportingDB)
 		if err != nil {
 			return nil, errors.Wrap(err, "could not create issue reporting client")
@@ -200,6 +208,7 @@ func New(options *types.Options) (*Runner, error) {
 	templates.Colorizer = runner.colorizer
 	templates.SeverityColorizer = colorizer.New(runner.colorizer)
 
+	// EnablePprof：允许使用Web服务器公开pprof运行时信息。
 	if options.EnablePprof {
 		server := &http.Server{
 			Addr:    pprofServerAddress,
@@ -216,7 +225,7 @@ func New(options *types.Options) (*Runner, error) {
 		os.Exit(0)
 	}
 
-	// Initialize the input source
+	// Initialize the input source 初始化输入源
 	hmapInput, err := hybrid.New(&hybrid.Options{
 		Options: options,
 	})
@@ -226,20 +235,25 @@ func New(options *types.Options) (*Runner, error) {
 	runner.hmapInputProvider = hmapInput
 
 	// Create the output file if asked
+	// 如果要求，创建输出文件
 	outputWriter, err := output.NewStandardWriter(options)
 	if err != nil {
 		return nil, errors.Wrap(err, "could not create output file")
 	}
 	// setup a proxy writer to automatically upload results to PDCP
+	// 设置代理编写器以自动将结果上载到PDCP
 	runner.output = runner.setupPDCPUpload(outputWriter)
 
+	// 是否将JSON行输出写入文件
 	if options.JSONL && options.EnableProgressBar {
 		options.StatsJSON = true
 	}
+	// 以JSON格式写入统计输出
 	if options.StatsJSON {
 		options.EnableProgressBar = true
 	}
 	// Creates the progress tracking object
+	// 创建进度跟踪对象
 	var progressErr error
 	statsInterval := options.StatsInterval
 	runner.progress, progressErr = progress.NewStatsTicker(statsInterval, options.EnableProgressBar, options.StatsJSON, false, options.MetricsPort)
@@ -248,6 +262,7 @@ func New(options *types.Options) (*Runner, error) {
 	}
 
 	// create project file if requested or load the existing one
+	// 根据请求创建项目文件或加载现有文件
 	if options.Project {
 		var projectFileErr error
 		runner.projectFile, projectFileErr = projectfile.New(&projectfile.Options{Path: options.ProjectPath, Cleanup: utils.IsBlank(options.ProjectPath)})
@@ -257,7 +272,8 @@ func New(options *types.Options) (*Runner, error) {
 	}
 
 	// create the resume configuration structure
-	resumeCfg := types.NewResumeCfg()
+	// 创建简要配置结构
+	resumeCfg := types.NewResumeCfg() //NewResumeCfg创建新的扫描进度结构
 	if runner.options.ShouldLoadResume() {
 		gologger.Info().Msg("Resuming from save checkpoint")
 		file, err := os.ReadFile(runner.options.Resume)
@@ -272,6 +288,7 @@ func New(options *types.Options) (*Runner, error) {
 	}
 	runner.resumeCfg = resumeCfg
 
+	// DefaultOptions 返回 interactsh 客户端的默认选项
 	opts := interactsh.DefaultOptions(runner.output, runner.issuesClient, runner.progress)
 	opts.Debug = runner.options.Debug
 	opts.NoColor = runner.options.NoColor
@@ -300,13 +317,14 @@ func New(options *types.Options) (*Runner, error) {
 		// in testing it was found most of times when interactsh failed, it was due to failure in registering /polling requests
 		opts.HTTPClient = retryablehttp.NewClient(retryablehttp.DefaultOptionsSingle)
 	}
+	// 建立交互端
 	interactshClient, err := interactsh.New(opts)
 	if err != nil {
 		gologger.Error().Msgf("Could not create interactsh client: %s", err)
 	} else {
 		runner.interactsh = interactshClient
 	}
-
+	// Rate Limit是指定目标每分钟的最大请求数
 	if options.RateLimitMinute > 0 {
 		runner.rateLimiter = ratelimit.New(context.Background(), uint(options.RateLimitMinute), time.Minute)
 	} else if options.RateLimit > 0 {
@@ -318,6 +336,7 @@ func New(options *types.Options) (*Runner, error) {
 }
 
 // runStandardEnumeration runs standard enumeration
+// runStandardEnumeration 运行标准枚举
 func (r *Runner) runStandardEnumeration(executerOpts protocols.ExecutorOptions, store *loader.Store, engine *core.Engine) (*atomic.Bool, error) {
 	if r.options.AutomaticScan {
 		return r.executeSmartWorkflowInput(executerOpts, store, engine)
@@ -326,6 +345,7 @@ func (r *Runner) runStandardEnumeration(executerOpts protocols.ExecutorOptions, 
 }
 
 // Close releases all the resources and cleans up
+// 释放所有资源并进行清理
 func (r *Runner) Close() {
 	if r.output != nil {
 		r.output.Close()
@@ -345,6 +365,7 @@ func (r *Runner) Close() {
 
 // setupPDCPUpload sets up the PDCP upload writer
 // by creating a new writer and returning it
+// setupPDCPUpload 设置 PDCP 上传写入器通过创建一个新的写入器并返回它来进行设置
 func (r *Runner) setupPDCPUpload(writer output.Writer) output.Writer {
 	if !(r.options.EnableCloudUpload || EnableCloudUpload) {
 		r.pdcpUploadErrMsg = fmt.Sprintf("[%v] Scan results upload to cloud is disabled.", aurora.BrightYellow("WRN"))
@@ -369,10 +390,14 @@ func (r *Runner) setupPDCPUpload(writer output.Writer) output.Writer {
 }
 
 // RunEnumeration sets up the input layer for giving input nuclei.
-// binary and runs the actual enumeration
+// binary and runs the actual enumeration RunEnumeration设置用于提供输入核的输入层。
+// RunEnumeration 设置输入层来提供输入给 nuclei程序，并运行实际的枚举
 func (r *Runner) RunEnumeration() error {
 	// If user asked for new templates to be executed, collect the list from the templates' directory.
+	// 如果用户要求执行新模板，请从模板目录中收集列表。
 	if r.options.NewTemplates {
+		// 如果 .new-additions 文件不存在，则 GetNewAdditions 函数返回当前模板发布中的新模板添加项，
+		// 如果存在该文件，则返回一个空切片
 		if arr := config.DefaultConfig.GetNewAdditions(); len(arr) > 0 {
 			r.options.Templates = append(r.options.Templates, arr...)
 		}
@@ -382,7 +407,7 @@ func (r *Runner) RunEnumeration() error {
 			r.options.Templates = append(r.options.Templates, arr...)
 		}
 	}
-	// Exclude ignored file for validation
+	// Exclude ignored file for validation 在验证过程中排除被忽略的文件
 	if !r.options.Validate {
 		ignoreFile := config.ReadIgnoreFile()
 		r.options.ExcludeTags = append(r.options.ExcludeTags, ignoreFile.Tags...)
@@ -391,6 +416,7 @@ func (r *Runner) RunEnumeration() error {
 
 	// Create the executor options which will be used throughout the execution
 	// stage by the nuclei engine modules.
+	//创建执行器选项，这些选项将在整个执行阶段由核心引擎模块使用。
 	executorOpts := protocols.ExecutorOptions{
 		Output:          r.output,
 		Options:         r.options,
@@ -406,28 +432,31 @@ func (r *Runner) RunEnumeration() error {
 		ExcludeMatchers: excludematchers.New(r.options.ExcludeMatchers),
 		InputHelper:     input.NewHelper(),
 	}
-
+	// ShouldUseHostError判断 允许的主机最大错误数量是否大于0 和 达到最大错误数量后是否禁用主机跳过
 	if r.options.ShouldUseHostError() {
 		cache := hosterrorscache.New(r.options.MaxHostError, hosterrorscache.DefaultMaxHostsCount, r.options.TrackError)
 		cache.SetVerbose(r.options.Verbose)
 		r.hostErrors = cache
 		executorOpts.HostErrorsCache = cache
 	}
-
+	// 返回一个新的 Engine 实例
 	executorEngine := core.New(r.options)
+	// SetExecuterOptions 用于设置引擎的执行器选项。在使用引擎执行任何操作之前，这是必需的
 	executorEngine.SetExecuterOptions(executorOpts)
-
+	// NewLoader 返回一个新的工作流加载器结构
 	workflowLoader, err := parsers.NewLoader(&executorOpts)
 	if err != nil {
 		return errors.Wrap(err, "Could not create loader.")
 	}
 	executorOpts.WorkflowLoader = workflowLoader
 
+	//  根据提供的配置创建存储模板加载器 // NewConfig 返回一个新的加载器配置
 	store, err := loader.New(loader.NewConfig(r.options, r.catalog, executorOpts))
 	if err != nil {
 		return errors.Wrap(err, "could not load templates from config")
 	}
 
+	// Validate 用于验证传递给 nuclei 的模板
 	if r.options.Validate {
 		if err := store.ValidateTemplates(); err != nil {
 			return err
@@ -439,6 +468,7 @@ func (r *Runner) RunEnumeration() error {
 		}
 		return nil // exit
 	}
+	// Load 函数从存储中加载所有的模板，进行过滤，并返回符合 nuclei 执行配置的完整编译模板
 	store.Load()
 	// TODO: remove below functions after v3 or update warning messages
 	disk.PrintDeprecatedPathsMsgIfApplicable(r.options.Silent)

@@ -12,25 +12,30 @@ import (
 	"github.com/projectdiscovery/nuclei/v3/pkg/types"
 )
 
-// Init initializes the client pools for the protocols
+// Init initializes the client pools for the protocols | Init初始化协议的客户端池
 func Init(options *types.Options) error {
 	uarand.Default = uarand.NewWithCustomList(userAgents)
-
+	// 协议状态
 	if err := protocolstate.Init(options); err != nil {
 		return err
 	}
+	// dns客户端池
 	if err := dnsclientpool.Init(options); err != nil {
 		return err
 	}
+	// http客户端池
 	if err := httpclientpool.Init(options); err != nil {
 		return err
 	}
+	// 签名池
 	if err := signerpool.Init(options); err != nil {
 		return err
 	}
+	// 网络客户端池
 	if err := networkclientpool.Init(options); err != nil {
 		return err
 	}
+	// 注册数据访问协议
 	if err := rdapclientpool.Init(options); err != nil {
 		return err
 	}

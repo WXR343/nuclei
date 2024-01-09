@@ -11,7 +11,7 @@ import (
 	fileutil "github.com/projectdiscovery/utils/file"
 )
 
-// DoHealthCheck performs self-diagnostic checks
+// DoHealthCheck performs self-diagnostic checks \ DoHealthCheck执行自我诊断检查
 func DoHealthCheck(options *types.Options) string {
 	// RW permissions on config file
 	var test strings.Builder

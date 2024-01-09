@@ -34,7 +34,7 @@ import (
 )
 
 const (
-	// Default directory used to save protocols traffic
+	// Default directory used to save protocols traffic 用于保存协议流量的默认目录
 	DefaultDumpTrafficOutputFolder = "output"
 )
 
@@ -51,17 +51,18 @@ func ConfigureOptions() error {
 }
 
 // ParseOptions parses the command line flags provided by a user
+// ParseOptions解析用户提供的命令行标志
 func ParseOptions(options *types.Options) {
-	// Check if stdin pipe was given
+	// Check if stdin pipe was given 检查是否提供了stdin管道
 	options.Stdin = !options.DisableStdin && fileutil.HasStdin()
 
-	// Read the inputs from env variables that not passed by flag.
+	// Read the inputs from env variables that not passed by flag.读取未通过标志传递的env变量的输入。
 	readEnvInputVars(options)
 
-	// Read the inputs and configure the logging
+	// Read the inputs and configure the logging 读取输入并配置日志记录
 	configureOutput(options)
 
-	// Show the user the banner
+	// Show the user the banner 向用户显示横幅
 	showBanner()
 
 	if options.ShowVarDump {
@@ -78,13 +79,13 @@ func ParseOptions(options *types.Options) {
 		gologger.Debug().Msgf("Store response directory specified, enabling \"store-resp\" flag automatically\n")
 		options.StoreResponse = true
 	}
-	// Validate the options passed by the user and if any
-	// invalid options have been used, exit.
+	// Validate the options passed by the user and if any	验证用户传递的选项（如果有）
+	// invalid options have been used, exit.	使用了无效选项，请退出。
 	if err := ValidateOptions(options); err != nil {
 		gologger.Fatal().Msgf("Program exiting: %s\n", err)
 	}
 
-	// Load the resolvers if user asked for them
+	// Load the resolvers if user asked for them	如果用户要求，则加载解析器
 	loadResolvers(options)
 
 	err := protocolinit.Init(options)
@@ -97,6 +98,7 @@ func ParseOptions(options *types.Options) {
 		os.Setenv("GITHUB_TOKEN", options.GitHubToken)
 	}
 
+	// Uncover插件
 	if options.UncoverQuery != nil {
 		options.Uncover = true
 		if len(options.UncoverEngine) == 0 {
@@ -306,7 +308,7 @@ func configureOutput(options *types.Options) {
 	logutil.DisableDefaultLogger()
 }
 
-// loadResolvers loads resolvers from both user-provided flags and file
+// loadResolvers loads resolvers from both user-provided flags and file	| loadResolver从用户提供的标志和文件加载解析器
 func loadResolvers(options *types.Options) {
 	if options.ResolversFile == "" {
 		return

@@ -1,0 +1,28 @@
+[caa-fingerprint] [dns] [info] www.baidu.com
+[dns-saas-service-detection] [dns] [info] www.baidu.com [www.a.shifen.com]
+[addeventlistener-detect] [http] [info] https://www.baidu.com
+[http-missing-security-headers:referrer-policy] [http] [info] https://www.baidu.com
+[http-missing-security-headers:clear-site-data] [http] [info] https://www.baidu.com
+[http-missing-security-headers:permissions-policy] [http] [info] https://www.baidu.com
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] https://www.baidu.com
+[http-missing-security-headers:x-content-type-options] [http] [info] https://www.baidu.com
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] https://www.baidu.com
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] https://www.baidu.com
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] https://www.baidu.com
+[http-missing-security-headers:strict-transport-security] [http] [info] https://www.baidu.com
+[http-missing-security-headers:x-frame-options] [http] [info] https://www.baidu.com
+[robots-txt-endpoint] [http] [info] https://www.baidu.com/robots.txt
+[robots-txt] [http] [info] https://www.baidu.com/robots.txt
+[missing-sri] [http] [info] https://www.baidu.com/ [https://pss.bdstatic.com/static/superman/js/lib/esl-d776bfb1aa.js,https://pss.bdstatic.com/r/www/cache/static/protocol/https/global/js/all_async_search_93737f2.js,//hectorstatic.baidu.com/cd37ed75a9387c5b.js,https://pss.bdstatic.com/static/superman/js/lib/jquery-1-edb203c114.10.2.js,https://pss.bdstatic.com/r/www/cache/static/protocol/https/bundles/es6-polyfill_388d059.js,https://pss.bdstatic.com/r/www/cache/static/protocol/https/bundles/polyfill_9354efa.js,https://pss.bdstatic.com/static/superman/js/sbase-65630eb62e.js,https://pss.bdstatic.com/static/superman/js/s_super_index-3fffae8d60.js,https://pss.bdstatic.com/static/superman/js/min_super-4131b401d8.js,https://pss.bdstatic.com/static/superman/js/components/hotsearch-5af0f864cf.js]
+[waf-detect:nginxgeneric] [http] [info] https://www.baidu.com/
+[deprecated-tls] [ssl] [info] www.baidu.com:443 [ssl30]
+[deprecated-tls] [ssl] [info] www.baidu.com:443 [tls10]
+[ssl-issuer] [ssl] [info] www.baidu.com:443 [GlobalSign nv-sa]
+[ssl-dns-names] [ssl] [info] www.baidu.com:443 [*.hao123.com,*.dlnel.com,*.xueshu.baidu.com,*.bj.baidubce.com,*.smartapps.cn,baidu.com,apollo.auto,dwz.cn,*.mipcdn.com,update.pan.baidu.com,*.fanyi.baidu.com,*.aipage.cn,*.pae.baidu.com,www.baidu.com.cn,*.map.baidu.com,*.mbd.baidu.com,*.91.com,*.cloud.baidu.com,*.safe.baidu.com,cm.pos.baidu.com,*.baidustatic.com,*.nuomi.com,*.eyun.baidu.com,*.apollo.auto,mct.y.nuomi.com,*.bdimg.com,*.aipage.com,wn.pos.baidu.com,www.baidu.cn,*.bdtjrcv.com,*.vd.bdstatic.com,*.hao123.baidu.com,*.gz.baidubce.com,*.baidu.com,*.news.baidu.com,*.im.baidu.com,*.trustgo.com,*.bcehost.com,click.hm.baidu.com,baifubao.com,log.hm.baidu.com,*.dlnel.org,*.dueros.baidu.com,*.su.baidu.com,*.haokan.com,*.bdstatic.com,*.chuanke.com,*.baiducontent.com,*.baidupcs.com,*.hao222.com,*.baifubao.com,*.bce.baidu.com,*.baidubce.com]
+[wildcard-tls] [ssl] [info] www.baidu.com:443 [ SAN: [baidu.com baifubao.com www.baidu.cn www.baidu.com.cn mct.y.nuomi.com apollo.auto dwz.cn *.baidu.com *.baifubao.com *.baidustatic.com *.bdstatic.com *.bdimg.com *.hao123.com *.nuomi.com *.chuanke.com *.trustgo.com *.bce.baidu.com *.eyun.baidu.com *.map.baidu.com *.mbd.baidu.com *.fanyi.baidu.com *.baidubce.com *.mipcdn.com *.news.baidu.com *.baidupcs.com *.aipage.com *.aipage.cn *.bcehost.com *.safe.baidu.com *.im.baidu.com *.baiducontent.com *.dlnel.com *.dlnel.org *.dueros.baidu.com *.su.baidu.com *.91.com *.hao123.baidu.com *.apollo.auto *.xueshu.baidu.com *.bj.baidubce.com *.gz.baidubce.com *.smartapps.cn *.bdtjrcv.com *.hao222.com *.haokan.com *.pae.baidu.com *.vd.bdstatic.com *.cloud.baidu.com click.hm.baidu.com log.hm.baidu.com cm.pos.baidu.com wn.pos.baidu.com update.pan.baidu.com],CN: baidu.com]
+[insecure-cipher-suite-detect] [ssl] [info] www.baidu.com:443 [[tls10 TLS_ECDHE_RSA_WITH_RC4_128_SHA]]
+[deprecated-tls] [ssl] [info] www.baidu.com:443 [tls11]
+[tls-version] [ssl] [info] www.baidu.com:443 [tls10]
+[insecure-cipher-suite-detect] [ssl] [info] www.baidu.com:443 [[tls11 TLS_ECDHE_RSA_WITH_RC4_128_SHA]]
+[tls-version] [ssl] [info] www.baidu.com:443 [tls11]
+[tls-version] [ssl] [info] www.baidu.com:443 [tls12]

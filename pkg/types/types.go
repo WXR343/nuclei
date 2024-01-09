@@ -86,7 +86,7 @@ type Options struct {
 	Output string
 	// ProxyInternal requests
 	ProxyInternal bool
-	// Show all supported DSL signatures
+	// Show all supported DSL signatures 显示所有支持的DSL签名
 	ListDslSignatures bool
 	// List of HTTP(s)/SOCKS5 proxy to use (comma separated or file input)
 	Proxy goflags.StringSlice
@@ -106,7 +106,7 @@ type Options struct {
 	MarkdownExportSortMode string
 	// SarifExport is the file to export sarif output format to
 	SarifExport string
-	// ResolversFile is a file containing resolvers for nuclei.
+	// ResolversFile is a file containing resolvers for nuclei.	| ResolversFile是一个包含核的解析器的文件。
 	ResolversFile string
 	// StatsInterval is the number of seconds to display stats after
 	StatsInterval int
@@ -155,6 +155,7 @@ type Options struct {
 	// OfflineHTTP is a flag that specific offline processing of http response
 	// using same matchers/extractors from http protocol without the need
 	// to send a new request, reading responses from a file.
+	// OfflineHTTP是一个标志，用于使用http协议中的相同匹配器/提取器对http响应进行特定的脱机处理，而无需发送新请求，从文件中读取响应。
 	OfflineHTTP bool
 	// Force HTTP2 requests
 	ForceAttemptHTTP2 bool
@@ -172,7 +173,7 @@ type Options struct {
 	UseInstalledChrome bool
 	// SystemResolvers enables override of nuclei's DNS client opting to use system resolver stack.
 	SystemResolvers bool
-	// ShowActions displays a list of all headless actions
+	// ShowActions displays a list of all headless actions ShowActions显示所有无头操作的列表
 	ShowActions bool
 	// Deprecated: Enabled by default through clistats . Metrics enables display of metrics via an http endpoint
 	Metrics bool
@@ -183,6 +184,7 @@ type Options struct {
 	// DebugResponse mode allows debugging response for the engine
 	DebugResponse bool
 	// DisableHTTPProbe disables http probing feature of input normalization
+	// DisableHTTPProbe禁用输入规范化的http探测功能
 	DisableHTTPProbe bool
 	// LeaveDefaultPorts skips normalization of default ports
 	LeaveDefaultPorts bool
@@ -199,7 +201,7 @@ type Options struct {
 	VerboseVerbose bool
 	// ShowVarDump displays variable dump
 	ShowVarDump bool
-	// No-Color disables the colored output.
+	// No-Color disables the colored output. ShowVarDump显示变量转储
 	NoColor bool
 	// UpdateTemplates updates the templates installed at startup (also used by cloud to update datasources)
 	UpdateTemplates bool
@@ -216,7 +218,7 @@ type Options struct {
 	JSONExport string
 	// JSONLExport is the file to export JSONL output format to
 	JSONLExport string
-	// EnableProgressBar enables progress bar
+	// EnableProgressBar enables progress bar | EnableProgressBar启用进度条
 	EnableProgressBar bool
 	// TemplateDisplay displays the template contents
 	TemplateDisplay bool
@@ -234,7 +236,7 @@ type Options struct {
 	NoMeta bool
 	// Timestamp enables display of timestamp for the matcher
 	Timestamp bool
-	// Project is used to avoid sending same HTTP request multiple times
+	// Project is used to avoid sending same HTTP request multiple times | Project用于避免多次发送相同的HTTP请求
 	Project bool
 	// NewTemplates only runs newly added templates from the repository
 	NewTemplates bool
@@ -262,9 +264,9 @@ type Options struct {
 	ShowMatchLine bool
 	// EnablePprof enables exposing pprof runtime information with a webserver.
 	EnablePprof bool
-	// StoreResponse stores received response to output directory
+	// StoreResponse stores received response to output directory | StoreResponse将接收到的响应存储到输出目录
 	StoreResponse bool
-	// StoreResponseDir stores received response to custom directory
+	// StoreResponseDir stores received response to custom directory | StoreResponseDir存储收到的对自定义目录的响应
 	StoreResponseDir string
 	// DisableRedirects disables following redirects for http request module
 	DisableRedirects bool

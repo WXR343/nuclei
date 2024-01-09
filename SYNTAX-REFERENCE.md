@@ -5,12 +5,12 @@
 ## Template
 Template is a YAML input file which defines all the requests and
  other metadata for a template.
+Template是一个YAML输入文件，它定义了模板的所有请求和其他元数据。
 
 
 
 
-
-
+/*************************************************ID****************************************************/
 <hr />
 
 <div class="dd">
@@ -21,14 +21,16 @@ Template is a YAML input file which defines all the requests and
 <div class="dt">
 
 ID is the unique id for the template.
-
+ID是模板的唯一ID。
 #### Good IDs
 
 A good ID uniquely identifies what the requests in the template
 are doing. Let's say you have a template that identifies a git-config
 file on the webservers, a good name would be `git-config-exposure`. Another
 example name is `azure-apps-nxdomain-takeover`.
-
+一个好的ID唯一地标识模板中的请求正在做什么。
+假设您有一个模板来标识Web服务器上的git-config文件，一个好的名称应该是“git-config-exposure”。
+另一个示例名称是“azure-apps-nxdomain-takeover”。
 
 
 Examples:
@@ -38,8 +40,9 @@ Examples:
 # ID Example
 id: CVE-2021-19520
 ```
+/*************************************************ID-END****************************************************/
 
-
+/*************************************************INFO****************************************************/
 </div>
 
 <hr />
@@ -52,8 +55,13 @@ id: CVE-2021-19520
 <div class="dt">
 
 Info contains metadata information about the template.
-
-
+信息包含有关模板的元数据信息。
+info:
+    name: 名称
+    author: 作者
+    tags: 标识
+    reference: 相关网页
+    severity: 严重程度
 
 Examples:
 
@@ -67,7 +75,9 @@ info:
     severity: high
 ```
 
+/*************************************************INFO-END****************************************************/
 
+/*************************************************FLOW****************************************************/
 </div>
 
 <hr />
@@ -89,8 +99,9 @@ description: |
 		 for vpc in vpcs {
 		    http(1)
 		 }
+/*************************************************FLOW-END****************************************************/
 
-
+/*************************************************requests****************************************************/
 </div>
 
 <hr />
@@ -104,9 +115,23 @@ description: |
 
 Requests contains the http request to make in the template.
 WARNING: 'requests' will be deprecated and will be removed in a future release. Please use 'http' instead.
+Requests包含要在模板中进行的http请求。 未来使用http代替
 
+{{BaseURL}}- 这将在请求中的运行时替换为目标文件中指定的输入 URL。
 
+{{RootURL}}- 这将在请求中的运行时替换为目标文件中指定的根 URL。
 
+{{Hostname}}- Hostname 变量在运行时替换为主机名，包括目标的端口。
+
+{{Host}}- 这将在请求中的运行时替换为目标文件中指定的输入主机。
+
+{{Port}}- 这将在请求中的运行时替换为目标文件中指定的输入端口。
+
+{{Path}}- 这会在请求中的运行时替换为目标文件中指定的输入路径。
+
+{{File}}- 这会在请求中的运行时替换为目标文件中指定的输入文件名。
+
+{{Scheme}}- 这将在运行时按目标文件中指定的协议方案替换请求中的协议
 Examples:
 
 
@@ -129,7 +154,7 @@ requests:
         - '{{BaseURL}}/.git/config'
     method: GET
 ```
-
+/*************************************************requests-END***********************************************/
 
 </div>
 
@@ -417,11 +442,11 @@ Constants contains any scalar constant for the current template
 
 
 
-
+----------------------------------------------------------------------------------------------------------------
 
 ## model.Info
 Info contains metadata information about a template
-
+信息包含有关模板的元数据信息
 Appears in:
 
 
@@ -448,7 +473,7 @@ severity: high
 <div class="dt">
 
 Name should be good short summary that identifies what the template does.
-
+名称应该是一个很好的简短摘要，用于识别模板的作用。
 
 
 Examples:
@@ -475,6 +500,7 @@ name: Nagios Default Credentials Check
 <div class="dt">
 
 Author of the template.
+模板作者
 
 Multiple values can also be specified separated by commas.
 
@@ -500,6 +526,7 @@ author: <username>
 <div class="dt">
 
 Any tags for the template.
+模板的一些标记
 
 Multiple values can also be specified separated by commas.
 
@@ -526,9 +553,10 @@ tags: cve,cve2019,grafana,auth-bypass,dos
 <div class="dt">
 
 Description of the template.
+模板说明
 
 You can go in-depth here on what the template actually does.
-
+你可以在这里深入了解模板的实际作用
 
 
 Examples:
@@ -557,7 +585,7 @@ description: Subversion ALM for the enterprise before 8.8.2 allows reflected XSS
 Impact of the template.
 
 You can go in-depth here on impact of the template.
-
+您可以在这里深入了解模板的影响。
 
 
 Examples:
@@ -586,7 +614,7 @@ impact: Successful exploitation of this vulnerability could allow an attacker to
 References for the template.
 
 This should contain links relevant to the template.
-
+这应该包含与模板相关的链接。
 
 
 Examples:
@@ -611,6 +639,7 @@ reference:
 <div class="dt">
 
 Severity of the template.
+定义紧急程度
 
 </div>
 
@@ -624,7 +653,7 @@ Severity of the template.
 <div class="dt">
 
 Metadata of the template.
-
+模板元数据
 
 
 Examples:
@@ -648,7 +677,7 @@ metadata:
 <div class="dt">
 
 Classification contains classification information about the template.
-
+Classification 包含有关模板的分类信息。
 </div>
 
 <hr />
@@ -663,7 +692,7 @@ Classification contains classification information about the template.
 Remediation steps for the template.
 
 You can go in-depth here on how to mitigate the problem found by this template.
-
+您可以在此处深入了解如何减轻此模板发现的问题
 
 
 Examples:
@@ -685,7 +714,8 @@ remediation: Change the default administrative username and password of Apache A
 ## stringslice.StringSlice
 StringSlice represents a single (in-lined) or multiple string value(s).
  The unmarshaller does not automatically convert in-lined strings to []string, hence the interface{} type is required.
-
+StringSlice表示单个（成行）或多个字符串值。
+解组程序不会自动将换行字符串转换为[]字符串，因此需要接口｛｝类型。
 Appears in:
 
 
@@ -992,22 +1022,22 @@ method: GET
 Part Definitions: 
 
 
-- <code>template-id</code> - ID of the template executed
-- <code>template-info</code> - Info Block of the template executed
-- <code>template-path</code> - Path of the template executed
-- <code>host</code> - Host is the input to the template
-- <code>matched</code> - Matched is the input which was matched upon
-- <code>type</code> - Type is the type of request made
-- <code>request</code> - HTTP request made from the client
-- <code>response</code> - HTTP response received from server
-- <code>status_code</code> - Status Code received from the Server
-- <code>body</code> - HTTP response body received from server (default)
-- <code>content_length</code> - HTTP Response content length
-- <code>header,all_headers</code> - HTTP response headers
-- <code>duration</code> - HTTP request time duration
-- <code>all</code> - HTTP response body + headers
-- <code>cookies_from_response</code> - HTTP response cookies in name:value format
-- <code>headers_from_response</code> - HTTP response headers in name:value format
+- <code>template-id</code> - ID of the template executed  执行的模板的ID
+- <code>template-info</code> - Info Block of the template executed  执行的模板的信息块
+- <code>template-path</code> - Path of the template executed  执行的模板的路径
+- <code>host</code> - Host is the input to the template 主机是模板的输入
+- <code>matched</code> - Matched is the input which was matched upon  Matched是匹配的输入
+- <code>type</code> - Type is the type of request made  Type是请求的类型
+- <code>request</code> - HTTP request made from the client  客户端发出的HTTP请求
+- <code>response</code> - HTTP response received from server  从服务器接收到HTTP响应
+- <code>status_code</code> - Status Code received from the Server 从服务器接收的状态代码
+- <code>body</code> - HTTP response body received from server (default) 从服务器接收的HTTP响应正文（默认值）
+- <code>content_length</code> - HTTP Response content length  HTTP响应内容长度
+- <code>header,all_headers</code> - HTTP response headers HTTP响应标头
+- <code>duration</code> - HTTP request time duration  HTTP请求持续时间
+- <code>all</code> - HTTP response body + headers HTTP响应正文+标头
+- <code>cookies_from_response</code> - HTTP response cookies in name:value format 名称：值格式的HTTP响应cookie
+- <code>headers_from_response</code> - HTTP response headers in name:value format 名称：值格式的HTTP响应标头
 
 <hr />
 
@@ -1020,7 +1050,7 @@ Part Definitions:
 
 Path contains the path/s for the HTTP requests. It supports variables
 as placeholders.
-
+Path包含HTTP请求的路径。它支持变量作为占位符。
 
 
 Examples:
@@ -1046,7 +1076,7 @@ path:
 <div class="dt">
 
 Raw contains HTTP Requests in Raw format.
-
+Raw包含Raw格式的HTTP请求。
 
 
 Examples:
@@ -1100,7 +1130,7 @@ Name is the optional name of the request.
 
 If a name is specified, all the named request in a template can be matched upon
 in a combined manner allowing multi-request based matchers.
-
+如果指定了名称，则可以以允许基于多请求的匹配器的组合方式匹配模板中的所有命名请求。
 </div>
 
 <hr />
@@ -1113,10 +1143,12 @@ in a combined manner allowing multi-request based matchers.
 <div class="dt">
 
 Attack is the type of payload combinations to perform.
-
+Attack 是要执行的有效载荷组合的类型。
 batteringram is inserts the same payload into all defined payload positions at once, pitchfork combines multiple payload sets and clusterbomb generates
 permutations and combinations for all payloads.
-
+batteringram：一次将相同的有效载荷插入所有定义的有效载荷位置；
+pitchfork：组合多个有效载荷集，
+clusterbomb：为所有有效载荷生成排列和组合。
 
 Valid values:
 

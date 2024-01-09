@@ -1,0 +1,22 @@
+1 [http-missing-security-headers:strict-transport-security] [http] [info] https://192.168.237.148:8890/
+2 [http-missing-security-headers:permissions-policy] [http] [info] https://192.168.237.148:8890/
+3 [http-missing-security-headers:x-frame-options] [http] [info] https://192.168.237.148:8890/
+4 [http-missing-security-headers:cross-origin-embedder-policy] [http] [info] https://192.168.237.148:8890/
+5 [http-missing-security-headers:cross-origin-opener-policy] [http] [info] https://192.168.237.148:8890/
+6 [http-missing-security-headers:cross-origin-resource-policy] [http] [info] https://192.168.237.148:8890/
+7 [http-missing-security-headers:content-security-policy] [http] [info] https://192.168.237.148:8890/
+8 [http-missing-security-headers:x-content-type-options] [http] [info] https://192.168.237.148:8890/
+9 [http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] https://192.168.237.148:8890/
+10 [http-missing-security-headers:referrer-policy] [http] [info] https://192.168.237.148:8890/
+11 [http-missing-security-headers:clear-site-data] [http] [info] https://192.168.237.148:8890/
+12 [cors-misconfig:arbitrary-origin] [http] [info] https://192.168.237.148:8890/ [cors_origin="https://4kup1237.148"]
+13 [ssl-issuer] [ssl] [info] 192.168.237.148:8890 [cvicse]
+14 [self-signed-ssl] [ssl] [low] 192.168.237.148:8890
+15 [tls-version] [ssl] [info] 192.168.237.148:8890 [tls10]
+16 [weak-cipher-suites:tls-1.0] [ssl] [low] 192.168.237.148:8890 [[tls10 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA]]
+17 [tls-version] [ssl] [info] 192.168.237.148:8890 [tls11]
+18 [deprecated-tls] [ssl] [info] 192.168.237.148:8890 [tls10]
+19 [weak-cipher-suites:tls-1.1] [ssl] [low] 192.168.237.148:8890 [[tls11 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA]]
+20 [deprecated-tls] [ssl] [info] 192.168.237.148:8890 [tls11]
+21 [tls-version] [ssl] [info] 192.168.237.148:8890 [tls12]
+22 [tls-version] [ssl] [info] 192.168.237.148:8890 [tls13]

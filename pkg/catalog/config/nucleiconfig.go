@@ -117,6 +117,7 @@ func (c *Config) NeedsTemplateUpdate() bool {
 }
 
 // NeedsIgnoreFileUpdate returns true if Ignore file hash is different (aka ignore file is outdated)
+// 如果忽略文件的哈希值不同（即忽略文件已过时），则 NeedsIgnoreFileUpdate 返回 true。
 func (c *Config) NeedsIgnoreFileUpdate() bool {
 	return c.NucleiIgnoreHash == "" || c.NucleiIgnoreHash != c.LatestNucleiIgnoreHash
 }

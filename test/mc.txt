@@ -1,0 +1,6 @@
+[xss-deprecated-header] [http] [info] http://192.168.237.148:9090/ [1; mode=block]
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://192.168.237.148:9090/inforguard/
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://192.168.237.148:9090/inforguard/
+[http-missing-security-headers:permissions-policy] [http] [info] http://192.168.237.148:9090/inforguard/
+[http-missing-security-headers:clear-site-data] [http] [info] http://192.168.237.148:9090/inforguard/
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://192.168.237.148:9090/inforguard/

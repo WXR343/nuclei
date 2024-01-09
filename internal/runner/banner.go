@@ -24,13 +24,13 @@ func showBanner() {
 	gologger.Print().Msgf("\t\tprojectdiscovery.io\n\n")
 }
 
-// NucleiToolUpdateCallback updates nuclei binary/tool to latest version
+// NucleiToolUpdateCallback updates nuclei binary/tool to latest version 更新nuclei
 func NucleiToolUpdateCallback() {
 	showBanner()
 	updateutils.GetUpdateToolCallback(config.BinaryName, config.Version)()
 }
 
-// AuthWithPDCP is used to authenticate with PDCP
+// AuthWithPDCP is used to authenticate with PDCP AuthWithPDCP用于使用PDCP进行身份验证
 func AuthWithPDCP() {
 	showBanner()
 	pdcp.CheckNValidateCredentials(config.BinaryName)

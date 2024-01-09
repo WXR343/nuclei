@@ -1,0 +1,16 @@
+[xss-deprecated-header] [http] [info] https://192.168.237.148:8890/ [1; mode=block]
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] https://192.168.237.148:8890/inforguard/
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] https://192.168.237.148:8890/inforguard/
+[http-missing-security-headers:permissions-policy] [http] [info] https://192.168.237.148:8890/inforguard/
+[http-missing-security-headers:clear-site-data] [http] [info] https://192.168.237.148:8890/inforguard/
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] https://192.168.237.148:8890/inforguard/
+[ssl-issuer] [ssl] [info] 192.168.237.148:8890 [cvicse]
+[self-signed-ssl] [ssl] [low] 192.168.237.148:8890
+[tls-version] [ssl] [info] 192.168.237.148:8890 [tls10]
+[weak-cipher-suites:tls-1.0] [ssl] [low] 192.168.237.148:8890 [[tls10 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA]]
+[tls-version] [ssl] [info] 192.168.237.148:8890 [tls11]
+[deprecated-tls] [ssl] [info] 192.168.237.148:8890 [tls10]
+[deprecated-tls] [ssl] [info] 192.168.237.148:8890 [tls11]
+[tls-version] [ssl] [info] 192.168.237.148:8890 [tls12]
+[weak-cipher-suites:tls-1.1] [ssl] [low] 192.168.237.148:8890 [[tls11 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA]]
+[tls-version] [ssl] [info] 192.168.237.148:8890 [tls13]
